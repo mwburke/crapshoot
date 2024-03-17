@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dk6boxfagmmvv"]
+
+[ext_resource type="Texture2D" uid="uid://cvjqq32yrda3g" path="res://artwork/splat_00.png" id="1_udwyq"]
+
+[node name="splat_00" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(3, 3)
+texture = ExtResource("1_udwyq")

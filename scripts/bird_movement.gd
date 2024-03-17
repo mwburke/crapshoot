@@ -1,6 +1,6 @@
 extends Node
 
-
+class_name BirdMovement
 
 # Movement
 @export var max_turn_angle: float
@@ -21,31 +21,55 @@ extends Node
 @export var collision_shape: CollisionShape2D
 @export var animation_player: AnimationPlayer
 
+@export var vertical_speed: float
+@export var speed_up_factor: float
+@export var speed_up_time: float
+
 var edge_limit_left: float
 var edge_limit_right: float
+var is_active: bool = true
+var has_shield: bool = false
+var obstacle_time: float = Globals.obstacle_hit_time
 
+@onready var obstacle_timer: float = obstacle_time
+@onready var speed_up_timer: float = speed_up_time
 @onready var horizontal_speed: float = 0.0
-
 @onready var camera: Camera2D = get_viewport().get_camera_2d()
 @onready var world_size = get_viewport().get_visible_rect().size
-@onready var is_active: bool = true
-@onready var has_shield: bool = false
 @onready var parent: Node = get_parent()
+@onready var player_state: PlayerState = PlayerState.FLYING
+
+
+enum PlayerState {
+	FLYING,
+	COLLISION
+}
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	animation_player.play("fly")
-	set_edge_limits()
+	_enter_flight()
+	_set_edge_limits()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if is_active:
-		process_angle()
-		process_movement(delta)
+	obstacle_timer += delta
+	if player_state == PlayerState.FLYING:
+		_process_angle()
+		_process_movement(delta)
+	elif player_state == PlayerState.COLLISION:
+		if obstacle_timer >= obstacle_time:
+			_enter_flight()
 
 
-func process_movement(delta):
+func _is_sped_up():
+	return speed_up_timer < speed_up_time
+
+
+func _process_movement(delta):
+	speed_up_timer += delta
+	
 	var horizontal_input: float = 0
 	if Input.is_action_pressed("move_left"):
 		horizontal_input = -1
@@ -64,14 +88,39 @@ func process_movement(delta):
 		elif horizontal_speed > 0:
 			horizontal_speed = max(0, horizontal_speed - friction_speed)
 
-	parent.position.x += horizontal_speed * delta
+	var speedup_frac: float = 0
+	if _is_sped_up():
+		speedup_frac = speed_up_factor
+
+	parent.position.x += horizontal_speed * delta * (1 + speedup_frac)
+	parent.position.y += vertical_speed * delta * (1 + speedup_frac)
+	
+
+func set_move_speed(new_speed : float):
+	vertical_speed = new_speed
 
 
-func process_angle():
+func _process_angle():
 	var fraction: float = horizontal_speed / max_horizontal_speed
 	parent.rotation = fraction * max_turn_angle
 
 
-func set_edge_limits():
+func _set_edge_limits():
 	edge_limit_left = -world_size.x / 2 * edge_limit_fraction
 	edge_limit_right = world_size.x / 2 * edge_limit_fraction
+
+
+func speed_up_powerup():
+	speed_up_timer = 0
+
+
+func _enter_flight():
+	player_state = PlayerState.FLYING
+	animation_player.play("fly")
+
+
+func obstacle_collision():
+	# TODO: create collision timer object and listener?
+	# TODO: set the speed_up_timer to the speed_up_time to disable
+	player_state = PlayerState.COLLISION
+	obstacle_timer = 0.0

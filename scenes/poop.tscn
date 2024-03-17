@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddrdop6r811qr"]
+
+[ext_resource type="Texture2D" uid="uid://b3k4ic61ko4cf" path="res://artwork/poop.png" id="1_1d8wv"]
+[ext_resource type="Script" path="res://scripts/projectile.gd" id="1_154e3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_d5175"]
+radius = 4.0
+
+[node name="poop" type="Node2D"]
+scale = Vector2(5, 5)
+script = ExtResource("1_154e3")
+life_time = 0.5
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_1d8wv")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_d5175")

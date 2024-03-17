@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ihyd6tpp7i3n"]
 
-[ext_resource type="PackedScene" uid="uid://by1atd6xyoksw" path="res://scenes/pigeon.tscn" id="1_y5tuq"]
+[ext_resource type="PackedScene" uid="uid://by1atd6xyoksw" path="res://scenes/Pigeon.tscn" id="1_y5tuq"]
 
 [node name="test" type="Node2D"]
 
@@ -11,3 +11,5 @@ scale = Vector2(7, 7)
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(1, 0)
 scale = Vector2(0.00857861, 0.2289)
+
+[node name="poops" type="Node" parent="."]

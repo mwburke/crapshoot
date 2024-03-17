@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://3okc3g7gck21"]
+
+[ext_resource type="PackedScene" uid="uid://by1atd6xyoksw" path="res://scenes/Pigeon.tscn" id="1_ees0d"]
+[ext_resource type="Script" path="res://scripts/powerup_manager.gd" id="1_gvcvf"]
+[ext_resource type="PackedScene" uid="uid://c1wp7vk42j666" path="res://scenes/powerups/shot_up.tscn" id="2_f1e6o"]
+[ext_resource type="PackedScene" uid="uid://beq6je2w51nig" path="res://scenes/powerups/speed_up.tscn" id="3_0cj6k"]
+[ext_resource type="PackedScene" uid="uid://om62a1ayu0qp" path="res://scenes/powerups/triple_shot.tscn" id="4_tocfa"]
+[ext_resource type="Script" path="res://scripts/camera_follow.gd" id="6_5c1wu"]
+
+[node name="main" type="Node2D"]
+
+[node name="Pigeon" parent="." instance=ExtResource("1_ees0d")]
+scale = Vector2(7, 7)
+
+[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("bird")]
+position = Vector2(-2, -7.00004)
+scale = Vector2(7, 7)
+offset = Vector2(0, -450)
+script = ExtResource("6_5c1wu")
+bird = NodePath("../Pigeon")
+
+[node name="Poops" type="Node" parent="."]
+
+[node name="PowerupManager" type="Node" parent="." node_paths=PackedStringArray("powerups", "bird")]
+script = ExtResource("1_gvcvf")
+available_powerups = Array[PackedScene]([ExtResource("2_f1e6o"), ExtResource("3_0cj6k"), ExtResource("4_tocfa")])
+min_time_powerup = 2
+max_time_powerup = 2
+powerups = NodePath("../Powerups")
+bird = NodePath("../Pigeon")
+
+[node name="Powerups" type="Node" parent="."]

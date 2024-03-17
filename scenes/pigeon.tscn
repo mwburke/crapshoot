@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://by1atd6xyoksw"]
+[gd_scene load_steps=9 format=3 uid="uid://by1atd6xyoksw"]
 
 [ext_resource type="Texture2D" uid="uid://c1tqhf6xss7lm" path="res://artwork/pigeon.png" id="1_dlb5i"]
 [ext_resource type="Script" path="res://scripts/bird_movement.gd" id="2_r73af"]
 [ext_resource type="Texture2D" uid="uid://c7quv0urbmn6l" path="res://artwork/reticle.png" id="3_4f446"]
+[ext_resource type="Script" path="res://scripts/bird_shooter.gd" id="3_s2s2e"]
+[ext_resource type="PackedScene" uid="uid://ddrdop6r811qr" path="res://scenes/poop.tscn" id="4_2lwtv"]
 
 [sub_resource type="Animation" id="Animation_0b5pi"]
 resource_name = "fly"
@@ -49,16 +51,30 @@ turn_speed_modifier = 40.0
 max_horizontal_speed = 800.0
 friction_speed = 15.0
 edge_limit_fraction = 0.85
-collision_shape = NodePath("../Area2D/CollisionShape2D")
+obstacle_hit_time = 1.0
+collision_shape = NodePath("../PigeonArea2D/CollisionShape2D")
 animation_player = NodePath("../AnimationPlayer")
+vertical_speed = -300.0
+speed_up_factor = 0.5
+speed_up_time = 5.0
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="PigeonArea2D" type="Area2D" parent="."]
+collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PigeonArea2D"]
 scale = Vector2(0.95474, 0.871512)
 shape = SubResource("CapsuleShape2D_dcnj5")
 
+[node name="ShooterController" type="Node2D" parent="." node_paths=PackedStringArray("target_scene")]
+script = ExtResource("3_s2s2e")
+poop_scene = ExtResource("4_2lwtv")
+target_scene = NodePath("../reticle")
+default_shot_time = 0.4
+triple_shot_angle = 0.4
+triple_shot_time = 3.0
+speed_shot_time = 3.0
+
 [node name="reticle" type="Sprite2D" parent="."]
 texture_filter = 1
+position = Vector2(0, -40)
 texture = ExtResource("3_4f446")
-offset = Vector2(0, -30)
