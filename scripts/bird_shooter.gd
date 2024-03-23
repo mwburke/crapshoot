@@ -34,10 +34,11 @@ func _process(delta):
 	shot_time = default_shot_time
 	if speed_shot_timer < speed_shot_time:
 		shot_time = fast_shot_time
-	if timer >= shot_time:
-		if Input.is_action_pressed("ui_accept"):
-			_shoot()
-			timer = 0.0
+	if obstacle_timer >= obstacle_time:
+		if timer >= shot_time:
+			if Input.is_action_pressed("ui_accept"):
+				_shoot()
+				timer = 0.0
 
 
 func _shoot():

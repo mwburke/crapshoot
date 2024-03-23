@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkkfkim2cw5wp"]
+
+[ext_resource type="Script" path="res://scripts/obstacle.gd" id="1_jxumu"]
+[ext_resource type="Texture2D" uid="uid://c707b18k2yujs" path="res://artwork/obstacle_balloon.png" id="1_lsgxy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ah1rt"]
+radius = 15.0333
+
+[node name="obstacle_balloon" type="Area2D"]
+scale = Vector2(6, 6)
+collision_layer = 8
+script = ExtResource("1_jxumu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_lsgxy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ah1rt")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

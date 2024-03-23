@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://3okc3g7gck21"]
+[gd_scene load_steps=9 format=3 uid="uid://3okc3g7gck21"]
 
 [ext_resource type="PackedScene" uid="uid://by1atd6xyoksw" path="res://scenes/Pigeon.tscn" id="1_ees0d"]
 [ext_resource type="Script" path="res://scripts/powerup_manager.gd" id="1_gvcvf"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://beq6je2w51nig" path="res://scenes/powerups/speed_up.tscn" id="3_0cj6k"]
 [ext_resource type="PackedScene" uid="uid://om62a1ayu0qp" path="res://scenes/powerups/triple_shot.tscn" id="4_tocfa"]
 [ext_resource type="Script" path="res://scripts/camera_follow.gd" id="6_5c1wu"]
+[ext_resource type="Script" path="res://scripts/obstacle_manager.gd" id="7_to6fs"]
+[ext_resource type="PackedScene" uid="uid://dkkfkim2cw5wp" path="res://scenes/obstacles/obstacle_balloon.tscn" id="8_67jpe"]
 
 [node name="main" type="Node2D"]
 
@@ -30,3 +32,13 @@ powerups = NodePath("../Powerups")
 bird = NodePath("../Pigeon")
 
 [node name="Powerups" type="Node" parent="."]
+
+[node name="ObstacleManager" type="Node" parent="." node_paths=PackedStringArray("obstacles", "bird")]
+script = ExtResource("7_to6fs")
+available_obstacles = Array[PackedScene]([ExtResource("8_67jpe")])
+min_time_powerup = 2
+max_time_powerup = 4
+obstacles = NodePath("../Obstacles")
+bird = NodePath("../Pigeon")
+
+[node name="Obstacles" type="Node" parent="."]
