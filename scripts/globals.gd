@@ -1,7 +1,5 @@
 class_name Globals
 
-const obstacle_hit_time: float = 200
-
 """
 COLLISION AND MASK LAYERS
 1. Pigeon

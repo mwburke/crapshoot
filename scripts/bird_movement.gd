@@ -13,10 +13,8 @@ class_name BirdMovement
 @export var edge_limit_fraction: float
 
 # Obstacle
-@export var obstacle_hit_time: float
-@export var obstacle_hit_timer: float
-@export var speed_at_obstacle_hit: float
-
+@export var obstacle_time: float
+@export var hit_speed: float
 
 @export var collision_shape: CollisionShape2D
 @export var animation_player: AnimationPlayer
@@ -25,11 +23,12 @@ class_name BirdMovement
 @export var speed_up_factor: float
 @export var speed_up_time: float
 
+
 var edge_limit_left: float
 var edge_limit_right: float
 var is_active: bool = true
 var has_shield: bool = false
-var obstacle_time: float = Globals.obstacle_hit_time
+
 
 @onready var obstacle_timer: float = obstacle_time
 @onready var speed_up_timer: float = speed_up_time
@@ -55,9 +54,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	obstacle_timer += delta
+	speed_up_timer += delta
+
+	_process_movement(delta)
+	_process_angle()
+
 	if player_state == PlayerState.FLYING:
-		_process_angle()
-		_process_movement(delta)
+		pass
+
 	elif player_state == PlayerState.COLLISION:
 		if obstacle_timer >= obstacle_time:
 			_enter_flight()
@@ -68,14 +72,14 @@ func _is_sped_up():
 
 
 func _process_movement(delta):
-	speed_up_timer += delta
-	
 	var horizontal_input: float = 0
-	if Input.is_action_pressed("move_left"):
-		horizontal_input = -1
-	if Input.is_action_pressed("move_right"):
-		horizontal_input = 1
 	
+	if player_state == PlayerState.FLYING:
+		if Input.is_action_pressed("move_left"):
+			horizontal_input = -1
+		if Input.is_action_pressed("move_right"):
+			horizontal_input = 1
+		
 	if parent.position.x <= edge_limit_left:
 		horizontal_speed = min(horizontal_speed + turn_speed_modifier, max_horizontal_speed)
 	elif parent.position.x >= edge_limit_right:
@@ -92,9 +96,16 @@ func _process_movement(delta):
 	if _is_sped_up():
 		speedup_frac = speed_up_factor
 
-	parent.position.x += horizontal_speed * delta * (1 + speedup_frac)
-	parent.position.y += vertical_speed * delta * (1 + speedup_frac)
-	
+	if player_state == PlayerState.FLYING:
+		parent.position.x += horizontal_speed * delta * (1 + speedup_frac)
+		parent.position.y += vertical_speed * delta * (1 + speedup_frac)
+	elif player_state == PlayerState.COLLISION:
+		_process_collision_movement(delta)
+
+
+func _process_collision_movement(delta : float):
+	parent.position.y += hit_speed * delta 
+
 
 func set_move_speed(new_speed : float):
 	vertical_speed = new_speed

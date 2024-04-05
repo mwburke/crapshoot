@@ -21,13 +21,27 @@ offset = Vector2(0, -450)
 script = ExtResource("6_5c1wu")
 bird = NodePath("../Pigeon")
 
+[node name="Control" type="Control" parent="Camera"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -0.5
+offset_right = 0.5
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="Poops" type="Node" parent="."]
 
 [node name="PowerupManager" type="Node" parent="." node_paths=PackedStringArray("powerups", "bird")]
 script = ExtResource("1_gvcvf")
 available_powerups = Array[PackedScene]([ExtResource("2_f1e6o"), ExtResource("3_0cj6k"), ExtResource("4_tocfa")])
 min_time_powerup = 2
-max_time_powerup = 2
+max_time_powerup = 4
 powerups = NodePath("../Powerups")
 bird = NodePath("../Pigeon")
 
@@ -42,3 +56,7 @@ obstacles = NodePath("../Obstacles")
 bird = NodePath("../Pigeon")
 
 [node name="Obstacles" type="Node" parent="."]
+
+[node name="ScoreManager" type="Node" parent="."]
+
+[node name="RoadManager" type="Node" parent="."]

@@ -5,20 +5,19 @@ class_name BirdShooter
 
 @export var poop_scene : PackedScene
 @export var target_scene : Node2D
-@export var default_shot_time : float = 0.7
+@export var default_shot_time : float
 @export var triple_shot_angle : float = PI / 4
 @export var triple_shot_time : float
 @export var speed_shot_time : float
+@export var obstacle_hit_time: float = 200
 var triple_shot_offset : float = -PI / 2
 
 var timer : float
 
-var fast_shot_time : float = default_shot_time * 0.7
 var shot_time : float
 
-var obstacle_time: float = Globals.obstacle_hit_time
-
-@onready var obstacle_timer: float = obstacle_time
+@onready var fast_shot_time : float = default_shot_time * 0.5
+@onready var obstacle_timer: float = obstacle_hit_time
 @onready var triple_shot_timer: float = triple_shot_time
 @onready var speed_shot_timer: float = speed_shot_time
 
@@ -31,10 +30,15 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	timer += delta
+	obstacle_timer += delta
+	speed_shot_timer += delta
+	triple_shot_timer += delta
+
 	shot_time = default_shot_time
+	
 	if speed_shot_timer < speed_shot_time:
 		shot_time = fast_shot_time
-	if obstacle_timer >= obstacle_time:
+	if obstacle_timer >= obstacle_hit_time:
 		if timer >= shot_time:
 			if Input.is_action_pressed("ui_accept"):
 				_shoot()
@@ -51,16 +55,19 @@ func _shoot():
 	if triple_shot_timer < triple_shot_time:
 		var left_target : Vector2 = global_position + Vector2(shot_distance * cos(-triple_shot_angle + angle), shot_distance * sin(-triple_shot_angle + angle))
 		var right_target : Vector2 = global_position + Vector2(shot_distance * cos(triple_shot_angle + angle), shot_distance * sin(triple_shot_angle + angle))
-		_shoot_poop(left_target)
-		_shoot_poop(right_target)
+		# Don't track accuracy for extra shots on triple shot since you can't aim them as well
+		_shoot_poop(left_target, false)
+		_shoot_poop(right_target, false)
 
 
-func _shoot_poop(target : Vector2):
+func _shoot_poop(target : Vector2, track_accuracy : bool = true):
 	var poop = poop_scene.instantiate()
 	get_parent().get_parent().add_child(poop)
 	poop.set_global_position(global_position)
 	poop.set_initial_position(global_position)
 	poop.set_target_destination(target)
+	if not track_accuracy:
+		poop.cancel_accuracy_tracking()
 
 
 func powerup_triple_shot():

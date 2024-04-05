@@ -6,8 +6,9 @@ var time : float = 0
 var initial_position: Vector2
 var target_destination: Vector2
 var hit_body : Area2D = null
+var track_accuracy : bool = true
 
-signal target_hit(target : Area2D, hit_position : Vector2)
+signal target_hit(target : Area2D, hit_position : Vector2, track_accuracy : bool)
 
 
 func _ready():
@@ -39,6 +40,10 @@ func set_initial_position(initial_pos : Vector2):
 	initial_position = initial_pos
 
 
+func cancel_accuracy_tracking():
+	track_accuracy = false
+
+
 func _handle_landing():
 	"""
 	Check for collision with target(s) and send out signal
@@ -57,4 +62,6 @@ func _on_body_exited(_body):
 
 
 func _handle_hit(body):
-	target_hit.emit(body, global_position)
+	var target : Target = body  # Should only hit targets based on collision layers
+	target.handle_hit(global_position)
+	target_hit.emit(body, global_position, track_accuracy)
