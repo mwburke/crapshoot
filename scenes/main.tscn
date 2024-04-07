@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://3okc3g7gck21"]
+[gd_scene load_steps=10 format=3 uid="uid://3okc3g7gck21"]
 
 [ext_resource type="PackedScene" uid="uid://by1atd6xyoksw" path="res://scenes/Pigeon.tscn" id="1_ees0d"]
 [ext_resource type="Script" path="res://scripts/powerup_manager.gd" id="1_gvcvf"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/camera_follow.gd" id="6_5c1wu"]
 [ext_resource type="Script" path="res://scripts/obstacle_manager.gd" id="7_to6fs"]
 [ext_resource type="PackedScene" uid="uid://dkkfkim2cw5wp" path="res://scenes/obstacles/obstacle_balloon.tscn" id="8_67jpe"]
+[ext_resource type="Script" path="res://scripts/road_car_manager.gd" id="9_d8i5n"]
 
 [node name="main" type="Node2D"]
 
@@ -35,28 +36,35 @@ offset_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Poops" type="Node" parent="."]
+[node name="RoadTargetManager" type="Node" parent="Camera"]
+script = ExtResource("9_d8i5n")
 
 [node name="PowerupManager" type="Node" parent="." node_paths=PackedStringArray("powerups", "bird")]
 script = ExtResource("1_gvcvf")
 available_powerups = Array[PackedScene]([ExtResource("2_f1e6o"), ExtResource("3_0cj6k"), ExtResource("4_tocfa")])
 min_time_powerup = 2
 max_time_powerup = 4
-powerups = NodePath("../Powerups")
+powerups = NodePath("../InstantiatedStuff/Powerups")
 bird = NodePath("../Pigeon")
-
-[node name="Powerups" type="Node" parent="."]
 
 [node name="ObstacleManager" type="Node" parent="." node_paths=PackedStringArray("obstacles", "bird")]
 script = ExtResource("7_to6fs")
 available_obstacles = Array[PackedScene]([ExtResource("8_67jpe")])
 min_time_powerup = 2
 max_time_powerup = 4
-obstacles = NodePath("../Obstacles")
+obstacles = NodePath("../InstantiatedStuff/Obstacles")
 bird = NodePath("../Pigeon")
-
-[node name="Obstacles" type="Node" parent="."]
 
 [node name="ScoreManager" type="Node" parent="."]
 
-[node name="RoadManager" type="Node" parent="."]
+[node name="InstantiatedStuff" type="Node" parent="."]
+
+[node name="Poops" type="Node" parent="InstantiatedStuff"]
+
+[node name="Obstacles" type="Node" parent="InstantiatedStuff"]
+
+[node name="Powerups" type="Node" parent="InstantiatedStuff"]
+
+[node name="Targets" type="Node" parent="InstantiatedStuff"]
+
+[node name="Roads" type="Node" parent="InstantiatedStuff"]
