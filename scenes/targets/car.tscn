@@ -1,13 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://vrm7fsx4ljp3"]
+[gd_scene load_steps=5 format=3 uid="uid://vrm7fsx4ljp3"]
 
 [ext_resource type="Script" path="res://scripts/target.gd" id="1_y77wo"]
+[ext_resource type="PackedScene" uid="uid://dk6boxfagmmvv" path="res://scenes/splats/splat_00.tscn" id="2_ej4jm"]
 [ext_resource type="Texture2D" uid="uid://3ae4mablid6v" path="res://artwork/car_base_color.png" id="2_nmdao"]
 [ext_resource type="Texture2D" uid="uid://bx1r8603epuss" path="res://artwork/car_details.png" id="3_srgak"]
 
 [node name="Car" type="Area2D"]
+scale = Vector2(6, 6)
 collision_layer = 16
 collision_mask = 2
 script = ExtResource("1_y77wo")
+move_speed = 25.0
+splat = ExtResource("2_ej4jm")
 
 [node name="CarBase" type="Sprite2D" parent="."]
 texture_filter = 1

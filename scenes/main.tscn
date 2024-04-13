@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://3okc3g7gck21"]
+[gd_scene load_steps=11 format=3 uid="uid://3okc3g7gck21"]
 
 [ext_resource type="PackedScene" uid="uid://by1atd6xyoksw" path="res://scenes/Pigeon.tscn" id="1_ees0d"]
 [ext_resource type="Script" path="res://scripts/powerup_manager.gd" id="1_gvcvf"]
 [ext_resource type="PackedScene" uid="uid://c1wp7vk42j666" path="res://scenes/powerups/shot_up.tscn" id="2_f1e6o"]
 [ext_resource type="PackedScene" uid="uid://beq6je2w51nig" path="res://scenes/powerups/speed_up.tscn" id="3_0cj6k"]
+[ext_resource type="PackedScene" uid="uid://b1laxxiacja48" path="res://scenes/road.tscn" id="4_fr8dp"]
 [ext_resource type="PackedScene" uid="uid://om62a1ayu0qp" path="res://scenes/powerups/triple_shot.tscn" id="4_tocfa"]
 [ext_resource type="Script" path="res://scripts/camera_follow.gd" id="6_5c1wu"]
 [ext_resource type="Script" path="res://scripts/obstacle_manager.gd" id="7_to6fs"]
@@ -36,8 +37,16 @@ offset_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="RoadTargetManager" type="Node" parent="Camera"]
+[node name="RoadTargetManager" type="Node" parent="Camera" node_paths=PackedStringArray("target_parent", "road_parent")]
 script = ExtResource("9_d8i5n")
+creation_offset = -1100.0
+vert_target_offset = 10.0
+dist_between_roads = 1.0
+frac_screen_width_multiplier = 1.2
+min_dist_frac_between_targets = 0.3
+road_sprite = ExtResource("4_fr8dp")
+target_parent = NodePath("../../InstantiatedStuff/Targets")
+road_parent = NodePath("../../InstantiatedStuff/Roads")
 
 [node name="PowerupManager" type="Node" parent="." node_paths=PackedStringArray("powerups", "bird")]
 script = ExtResource("1_gvcvf")
@@ -59,12 +68,12 @@ bird = NodePath("../Pigeon")
 
 [node name="InstantiatedStuff" type="Node" parent="."]
 
+[node name="Roads" type="Node" parent="InstantiatedStuff"]
+
+[node name="Targets" type="Node" parent="InstantiatedStuff"]
+
 [node name="Poops" type="Node" parent="InstantiatedStuff"]
 
 [node name="Obstacles" type="Node" parent="InstantiatedStuff"]
 
 [node name="Powerups" type="Node" parent="InstantiatedStuff"]
-
-[node name="Targets" type="Node" parent="InstantiatedStuff"]
-
-[node name="Roads" type="Node" parent="InstantiatedStuff"]
