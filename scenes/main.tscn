@@ -13,9 +13,6 @@
 
 [node name="main" type="Node2D"]
 
-[node name="Pigeon" parent="." instance=ExtResource("1_ees0d")]
-scale = Vector2(7, 7)
-
 [node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("bird")]
 position = Vector2(-2, -7.00004)
 scale = Vector2(7, 7)
@@ -39,20 +36,27 @@ grow_vertical = 2
 
 [node name="RoadTargetManager" type="Node" parent="Camera" node_paths=PackedStringArray("target_parent", "road_parent")]
 script = ExtResource("9_d8i5n")
-creation_offset = -1100.0
-vert_target_offset = 10.0
-dist_between_roads = 1.0
+creation_offset = -1200.0
+vert_target_offset = 50.0
+dist_between_roads = 800.0
 frac_screen_width_multiplier = 1.2
 min_dist_frac_between_targets = 0.3
 road_sprite = ExtResource("4_fr8dp")
 target_parent = NodePath("../../InstantiatedStuff/Targets")
 road_parent = NodePath("../../InstantiatedStuff/Roads")
 
+[node name="ColorRect" type="ColorRect" parent="Camera"]
+offset_left = -53.0
+offset_top = -156.0
+offset_right = 49.0
+offset_bottom = 24.0
+color = Color(0.2, 0.411765, 0.258824, 1)
+
 [node name="PowerupManager" type="Node" parent="." node_paths=PackedStringArray("powerups", "bird")]
 script = ExtResource("1_gvcvf")
 available_powerups = Array[PackedScene]([ExtResource("2_f1e6o"), ExtResource("3_0cj6k"), ExtResource("4_tocfa")])
-min_time_powerup = 2
-max_time_powerup = 4
+min_time_powerup = 3
+max_time_powerup = 5
 powerups = NodePath("../InstantiatedStuff/Powerups")
 bird = NodePath("../Pigeon")
 
@@ -77,3 +81,7 @@ bird = NodePath("../Pigeon")
 [node name="Obstacles" type="Node" parent="InstantiatedStuff"]
 
 [node name="Powerups" type="Node" parent="InstantiatedStuff"]
+
+[node name="Pigeon" parent="." instance=ExtResource("1_ees0d")]
+z_index = 10
+scale = Vector2(7, 7)

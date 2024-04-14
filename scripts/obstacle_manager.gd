@@ -41,13 +41,13 @@ func _spawn_obstacle():
 	var obstacle : Area2D = available_obstacles.pick_random().instantiate()
 	obstacles.add_child(obstacle)
 	obstacle.global_position.x = -screen_width / 2 + screen_width * randf()
-	obstacle.global_position.y = bird.position.y - screen_height * 0.8
+	obstacle.global_position.y = bird.position.y - screen_height
 	obstacle.connect("obstacle_collision", _activate_collision)
 
 
-func _activate_collision():
+func _activate_collision(obstacle : Obstacle):
 	# TODO: update score manager
 	# TODO: animation and deletion??
 	bird_movement.obstacle_collision()
 	bird_shooter.obstacle_collision()
-	queue_free()
+	obstacle.queue_free()

@@ -6,9 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://bx1r8603epuss" path="res://artwork/car_details.png" id="3_srgak"]
 
 [node name="Car" type="Area2D"]
+z_index = 2
 scale = Vector2(6, 6)
 collision_layer = 16
-collision_mask = 2
+collision_mask = 18
 script = ExtResource("1_y77wo")
 move_speed = 25.0
 splat = ExtResource("2_ej4jm")
@@ -23,4 +24,4 @@ texture = ExtResource("3_srgak")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 build_mode = 1
-polygon = PackedVector2Array(-6, 5, -6, 0, -3, -4, 2, -4, 6, 0, 6, 5, 4, 6, -4, 6)
+polygon = PackedVector2Array(-7, 4.5, -7, -0.166667, -2.66667, -4.83333, 1.83333, -4.83333, 7, -0.166667, 7, 4.83333, 4.83333, 6.66667, -4.66667, 6.66667)

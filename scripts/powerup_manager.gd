@@ -45,7 +45,7 @@ func _spawn_powerup():
 	var powerup : Area2D = available_powerups.pick_random().instantiate()
 	powerups.add_child(powerup)
 	powerup.global_position.x = -screen_width / 2 + screen_width * randf()
-	powerup.global_position.y = bird.position.y - screen_height * 0.8
+	powerup.global_position.y = bird.position.y - screen_height * 1.1
 	powerup.connect("powerup_collected", activate_powerup)
 
 

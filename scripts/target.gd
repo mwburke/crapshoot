@@ -26,7 +26,8 @@ func _adjust_move_speed():
 
 
 func handle_hit(hit_position : Vector2):
-	var offset = self.global_position - hit_position
+	var offset = hit_position - global_position
 	var splat_instance = splat.instantiate()
-	splat_instance.set_position(offset);
+	self.add_child(splat_instance)
+	splat_instance.set_position(offset / scale.x);
 	splat_instance.rotation = randf() * PI * 2

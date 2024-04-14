@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://cvjqq32yrda3g" path="res://artwork/splat_00.png" id="1_udwyq"]
 
 [node name="splat_00" type="Node2D"]
+z_index = 4
+scale = Vector2(0.18, 0.18)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
