@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://3okc3g7gck21"]
+[gd_scene load_steps=14 format=3 uid="uid://3okc3g7gck21"]
 
 [ext_resource type="PackedScene" uid="uid://by1atd6xyoksw" path="res://scenes/Pigeon.tscn" id="1_ees0d"]
 [ext_resource type="Script" path="res://scripts/powerup_manager.gd" id="1_gvcvf"]
+[ext_resource type="FontFile" uid="uid://c1paoxfy4cn76" path="res://fonts/Retro Gaming.ttf" id="2_du2f6"]
 [ext_resource type="PackedScene" uid="uid://c1wp7vk42j666" path="res://scenes/powerups/shot_up.tscn" id="2_f1e6o"]
 [ext_resource type="PackedScene" uid="uid://beq6je2w51nig" path="res://scenes/powerups/speed_up.tscn" id="3_0cj6k"]
 [ext_resource type="PackedScene" uid="uid://b1laxxiacja48" path="res://scenes/road.tscn" id="4_fr8dp"]
@@ -10,8 +11,59 @@
 [ext_resource type="Script" path="res://scripts/obstacle_manager.gd" id="7_to6fs"]
 [ext_resource type="PackedScene" uid="uid://dkkfkim2cw5wp" path="res://scenes/obstacles/obstacle_balloon.tscn" id="8_67jpe"]
 [ext_resource type="Script" path="res://scripts/road_car_manager.gd" id="9_d8i5n"]
+[ext_resource type="Script" path="res://scripts/score_manager.gd" id="10_jm6o8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wjpx7"]
+font = ExtResource("2_du2f6")
+font_size = 11
 
 [node name="main" type="Node2D"]
+
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+position = Vector2(0, -451)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="CanvasGroup"]
+
+[node name="Control" type="Control" parent="CanvasGroup/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasGroup/CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(6.71745, 6.6505)
+color = Color(0.2, 0.411765, 0.258824, 1)
+
+[node name="ScoreHeader" type="Label" parent="CanvasGroup/CanvasLayer/Control"]
+texture_filter = 1
+layout_mode = 0
+offset_left = -44.9286
+offset_top = -137.071
+offset_right = 4.07143
+offset_bottom = -114.071
+scale = Vector2(0.689196, 0.689196)
+text = "SCORE:"
+label_settings = SubResource("LabelSettings_wjpx7")
+
+[node name="ScoreValue" type="Label" parent="CanvasGroup/CanvasLayer/Control"]
+texture_filter = 1
+layout_mode = 0
+offset_left = -44.9286
+offset_top = -127.929
+offset_right = 4.07143
+offset_bottom = -104.929
+scale = Vector2(0.689196, 0.689196)
+text = "00000"
+label_settings = SubResource("LabelSettings_wjpx7")
+horizontal_alignment = 2
 
 [node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("bird")]
 position = Vector2(-2, -7.00004)
@@ -19,20 +71,6 @@ scale = Vector2(7, 7)
 offset = Vector2(0, -450)
 script = ExtResource("6_5c1wu")
 bird = NodePath("../Pigeon")
-
-[node name="Control" type="Control" parent="Camera"]
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -0.5
-offset_top = -0.5
-offset_right = 0.5
-offset_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="RoadTargetManager" type="Node" parent="Camera" node_paths=PackedStringArray("target_parent", "road_parent")]
 script = ExtResource("9_d8i5n")
@@ -44,13 +82,6 @@ min_dist_frac_between_targets = 0.3
 road_sprite = ExtResource("4_fr8dp")
 target_parent = NodePath("../../InstantiatedStuff/Targets")
 road_parent = NodePath("../../InstantiatedStuff/Roads")
-
-[node name="ColorRect" type="ColorRect" parent="Camera"]
-offset_left = -53.0
-offset_top = -156.0
-offset_right = 49.0
-offset_bottom = 24.0
-color = Color(0.2, 0.411765, 0.258824, 1)
 
 [node name="PowerupManager" type="Node" parent="." node_paths=PackedStringArray("powerups", "bird")]
 script = ExtResource("1_gvcvf")
@@ -69,6 +100,7 @@ obstacles = NodePath("../InstantiatedStuff/Obstacles")
 bird = NodePath("../Pigeon")
 
 [node name="ScoreManager" type="Node" parent="."]
+script = ExtResource("10_jm6o8")
 
 [node name="InstantiatedStuff" type="Node" parent="."]
 
